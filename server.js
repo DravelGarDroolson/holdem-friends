@@ -4,7 +4,8 @@ import { Server } from 'socket.io';
 import crypto from 'node:crypto';
 import { evaluate7, describe } from './poker.js';
 
-const app = express(); app.use(express.static('public'));
+
+const app = express(); app.use(express.static('.'));
 const server = createServer(app); const io = new Server(server);
 const rooms = new Map();
 const START_STACK = 2000, SMALL = 10, BIG = 20;
