@@ -1,24 +1,23 @@
-# Hold'em Friends
-Private, two-player, no-money Texas Hold'em. The server handles a cryptographically shuffled deck, hole-card privacy, dealer button rotation, blinds, legal betting, all-ins, showdown, kickers, split pots, and winner payouts. No AI players, ads, accounts, deposits, or payments.
+# Hold'em Friends — Six-player update
 
-## Fast deployment (GitHub + Render)
-1. Create a new public or private GitHub repository, e.g. `holdem-friends`.
-2. Upload **the contents of this folder** to the repository root using GitHub's **Add file → Upload files**. Ensure `package.json`, `server.js`, `poker.js`, `render.yaml`, and `public/` are at the root (not nested in another folder). Commit.
-3. Log in to https://dashboard.render.com/ with GitHub. Choose **New → Web Service** and connect your repository. Authorize GitHub access if prompted.
-4. Choose **Node**, **Free** instance type, **Build Command** `npm install`, **Start Command** `npm start`. Click **Deploy Web Service**. The included `render.yaml` is optional; alternatively use **New → Blueprint** and select the repository.
-5. Wait for deployment and open the `https://...onrender.com` URL that Render gives you. Enter a nickname and click **Create private table**.
-6. Click **Copy invite link** and send it to your friend. They enter a nickname and click **Join friend's table**. Either player clicks **Deal next hand**.
+Private, free Texas Hold'em for 2–6 human players. Automated dealer, multiway side pots, showdown rankings, chip explanations and optional 2,000-chip replenishment after busting. No bots or payments.
 
-## Notes
-- Play chips only; both start with 2,000 chips and blinds are 10/20. If either player busts, a new hand resets both stacks.
-- One table = two players; no spectators. Room codes are random, but the link is a secret: anyone with it can join the empty seat.
-- Each seat has a locally stored reconnect token. Refreshing in the same browser restores your seat. Clearing browser storage or switching devices may lose your seat. If a player disconnects, the hand pauses.
-- Free Render instances may sleep after inactivity and take time to wake. Server restarts clear games and rooms. This is not a persistent production poker service.
-- Designed for two players; because no side pots with three or more players are needed, unmatched all-in contributions are returned at showdown.
-- Standard no-limit Hold'em: raises are expressed as **raise-to totals for the current betting street**, not additional chips. Short all-in raises do not reopen a previously closed raise.
+## Update existing GitHub / Render deployment
 
-## Local development
-Install Node.js 20+. In this folder run `npm install` then `npm start`, and visit http://localhost:3000.
+1. Download and extract `holdem-friends-v2.zip`.
+2. Open your existing GitHub repository `holdem-friends`.
+3. Replace these ROOT files with the ones from the ZIP: `server.js`, `poker.js`, `package.json`, `render.yaml`, `README.md`.
+4. IMPORTANT: Create a folder named `public` at the repository root, containing `index.html`, `app.js`, and `style.css`. Do not upload these three to the root. If your old root copies remain, delete them so only the `public/` copies are used.
+5. Commit changes. Render automatically deploys to the same URL.
+6. After deployment is Live, reload the game. Start a fresh room (old rooms reset on restart).
 
-## Security / fair play
-Deck shuffling uses Node.js `crypto.randomInt` on the server. The server sends hidden cards only to the owning player and reveals active players' cards at showdown. Room IDs are short invite codes, not strong access controls; do not use for wagering or valuable stakes.
+### Easier method with GitHub web interface
+
+You can upload the updated root files with **Add file → Upload files**, and use **Add file → Create new file** with the path `public/index.html`, pasting the file contents; repeat for `public/app.js` and `public/style.css`. Commit. Or use GitHub Desktop to drag the extracted files into the cloned repository and push one commit.
+
+### Known limits
+
+- Free Render servers sleep and restart; room state is kept in memory only.
+- A disconnected player retains their seat; play pauses if their turn comes up until they reconnect.
+- Players can join only between hands. Existing seated players with zero chips can replenish 2,000 play chips between hands.
+- This is a recreational project, not a real-money gambling product. Test complicated poker situations before relying on the dealer for competitive events.
