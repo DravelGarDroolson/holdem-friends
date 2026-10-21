@@ -15,7 +15,7 @@ function cleanSeats(r){if(stages.includes(r.stage))return; r.players=r.players.f
 function name(n){return String(n||'Player').trim().slice(0,22)||'Player';}
 function newPlayer(n){return {name:name(n),token:token(),socket:null,stack:START,cards:[],committed:0,total:0,folded:false,allin:false,acted:false,raiseAllowed:true,inHand:false};}
 function connected(r){return r.players.map((p,i)=>i).filter(i=>r.players[i].socket);}
-function live(r){return r.players.map((p,i)=>i).filter(i=>p.inHand&&!p.folded);}
+function live(r){return r.players.map((p,i)=>i).filter(i=>r.players[i].inHand&&!r.players[i].folded);}
 function actors(r){return live(r).filter(i=>!r.players[i].allin);}
 function next(r,from,filter){for(let n=1;n<=r.players.length;n++){let i=(from+n)%r.players.length;if(filter(i))return i;}return null;}
 function needs(r,i){let p=r.players[i];return p.inHand&&!p.folded&&!p.allin&&(!p.acted||p.committed<r.bet);}
